@@ -3,3 +3,6 @@
 
 #vsCode
 .vscode/
+
+#사진
+*.png
