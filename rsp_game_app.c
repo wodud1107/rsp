@@ -58,12 +58,27 @@ int main(int argc, char *argv[]) {
     else if (strcmp(argv[1], "recv") == 0) {
         // 수신자: 입력모드
         rsp_set_direction(&gpio, 0);
+
+        printf("내 패를 입력하세요 (0: 가위, 1: 바위, 2: 보): ");
+        int sel;
+        scanf("%d", &sel);
+        rsp_hand_t my_hand = (rsp_hand_t)sel;
+
         printf("상대 신호 대기 중...\n");
         rsp_hand_t oppo_hand;
         rsp_recv(&gpio, &oppo_hand);
         printf("상대의 선택: ");
         print_hand(oppo_hand);
         printf("\n");
+
+        // 판정
+        int res = judge(my_hand, oppo_hand);
+        if (res == 0)
+            printf("결과: 무승부\n");
+        else if (res == 1)
+            printf("결과: 승리!\n");
+        else
+            printf("결과: 패배...\n");
     }
     else {
         printf("Usage: %s send|recv\n", argv[0]);
